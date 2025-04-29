@@ -146,5 +146,24 @@ export const colorList = [
   { id: 145, colorName: "White", hexCode: "#FFFFFF" },
   { id: 146, colorName: "WhiteSmoke", hexCode: "#F5F5F5" },
   { id: 147, colorName: "Yellow", hexCode: "#FFFF00" },
-  { id: 148, colorName: "YellowGreen", hexCode: "#9ACD32" }
+  { id: 148, colorName: "YellowGreen", hexCode: "#9ACD32" },
+  { id: 149, colorName: "Transparent", hexCode: "" }
 ];
+
+const palettes = [
+  [[4, 4], [5, 2], [11, 3], [7, 1], [10, 13], [6, 7], [4, 11], [12, 3], [5, 10], [4, 8], [4, 12], [11, 5], [12, 2]],
+  [[3, 4], [8, 13], [3, 1], [5, 4], [9, 1], [4, 9], [7, 6], [8, 1], [12, 5], [5, 5], [7, 5], [6, 1], [9, 6]],
+  [[3, 4], [8, 13], [3, 1], [5, 4], [9, 1], [4, 9], [7, 6], [8, 1], [12, 5], [5, 5], [7, 5], [6, 1], [9, 6]],
+]
+
+export const paletteList = palettes
+  .map((palette) => {
+    return palette.map((position) => {
+      const [x, y] = position
+      const idx = (x - 1) * 13 + y - 1
+      return colorList[idx]
+    })
+  })
+  .flat(1)
+
+export const artworkList = []

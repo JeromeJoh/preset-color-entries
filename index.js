@@ -1,7 +1,11 @@
-import { colorList } from "./data.js"
+import { colorList, paletteList, artworkList } from "./data.js"
 
-const _gridSize = 13
+const _gridRow = 13
+const _gridCol = 13
+
 const excludedLetters = ['E', 'J', 'Q', 'U', 'X', 'Z']
+
+console.log(paletteList)
 
 
 const init = () => {
@@ -39,9 +43,9 @@ const init = () => {
   const section = document.querySelector('main section')
   const fragS = document.createDocumentFragment()
 
-  for (let i = 0; i < colorList.length; i++) {
+  for (let i = 0; i < _gridRow * _gridCol; i++) {
     const grid = document.createElement('div')
-    grid.style.setProperty('--color', colorList[i].colorName.toLowerCase())
+    if (i < colorList.length) grid.style.setProperty('--color', colorList[i].colorName.toLowerCase())
     fragS.appendChild(grid)
   }
 
@@ -53,6 +57,35 @@ const bindEvents = () => {
   const menu = document.querySelector('menu')
   const grids = gsap.utils.toArray('main section div')
   const mark = document.querySelector('mark')
+
+  menu.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target.matches('button')) return
+    console.log(target.innerText)
+
+    const { innerText } = target
+
+    switch (innerText.slice(2, innerText.length - 2)) {
+      case 'OVERVIEW':
+        resetGrids()
+        setGridColor(colorList)
+        gsap.to(letterController[0], { x: 0, opacity: 1 })
+        gsap.to(letterController[1], { x: 0, opacity: 1 })
+        break
+      case 'PALETTE':
+        resetGrids()
+        setGridColor(paletteList)
+        gsap.to(letterController[0], { x: -100, opacity: 0 })
+        gsap.to(letterController[1], { x: 100, opacity: 0 })
+        break
+      case 'ARTWORK':
+        resetGrids()
+        setGridColor(artworkList)
+        break
+      default:
+        break
+    }
+  })
 
   document.querySelector('section').addEventListener('mouseleave', () => { mark.innerText = "#" })
 
@@ -70,20 +103,10 @@ const bindEvents = () => {
       const target = e.target;
       if (!target.matches('li') && !target.matches('span')) return
 
-      const filterColorList = colorList.filter((color) => color.colorName.startsWith(target.innerText)
+      const filteredColorList = colorList.filter((color) => color.colorName.startsWith(target.innerText)
       )
       resetGrids()
-      setGridColor(filterColorList)
-      gsap.from(grids, {
-        scale: 0,
-        duration: 0.5,
-        stagger: {
-          amount: 0.5,
-          from: 'start',
-          grid: 'auto',
-          each: 0.1,
-        },
-      })
+      setGridColor(filteredColorList)
     })
   })
 }
@@ -100,14 +123,6 @@ const setGridColor = (colorList) => {
   colorList.forEach((color, index) => {
     grids[index].style.setProperty('--color', color.colorName.toLowerCase())
   })
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  init()
-  bindEvents()
-
-  const grids = gsap.utils.toArray('main section div')
-
   gsap.from(grids, {
     scale: 0,
     duration: 0.5,
@@ -118,4 +133,29 @@ window.addEventListener('DOMContentLoaded', () => {
       each: 0.1,
     },
   })
+}
+
+const letterController = gsap.utils.toArray('aside')
+const asideTween = gsap.timeline({
+  paused: true,
+  defaults: {
+    duration: 0.5,
+    ease: 'power2.inOut',
+  },
+})
+
+asideTween
+  .from(letterController[0], {
+    x: -100,
+    opacity: 0,
+  }).from(letterController[1], {
+    x: 100,
+    opacity: 0,
+  }, "<")
+
+window.addEventListener('DOMContentLoaded', () => {
+  init()
+  bindEvents()
+  setGridColor(colorList)
+  asideTween.play()
 })
