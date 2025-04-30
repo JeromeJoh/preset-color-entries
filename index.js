@@ -5,9 +5,6 @@ const _gridCol = 13
 
 const excludedLetters = ['E', 'J', 'Q', 'U', 'X', 'Z']
 
-console.log(paletteList)
-
-
 const init = () => {
   const panelL = document.querySelector('.panel-left ul')
   const panelR = document.querySelector('.panel-right ul')
@@ -81,6 +78,8 @@ const bindEvents = () => {
       case 'ARTWORK':
         resetGrids()
         setGridColor(artworkList)
+        gsap.to(letterController[0], { x: -100, opacity: 0 })
+        gsap.to(letterController[1], { x: 100, opacity: 0 })
         break
       default:
         break
