@@ -62,6 +62,7 @@ header {
     background-color: black;
 
     mark {
+      width: 25rem;
       position: absolute;
       top: 35%;
       right: 0;
@@ -71,6 +72,15 @@ header {
       border-radius: 4px;
       font-family: 'Gilda Display', sans-serif;
       background-color: transparent;
+      text-align: left;
+      // border: solid 1px lime;
+
+      &::after {
+        content: attr(data-toast);
+        padding: 2px 4px;
+        color: limegreen;
+        font-weight: 700;
+      }
     }
   }
 
@@ -155,6 +165,7 @@ footer {
       from {
         transform: translate(-50%, -100%) rotate(0deg);
       }
+
       to {
         transform: translate(-50%, -100%) rotate(360deg);
       }
@@ -173,12 +184,14 @@ footer {
         background-color: black;
         transform: translate(-50%, -50%);
       }
+
       &:nth-child(2) {
         right: 0;
         top: 0;
         background-color: black;
         transform: translate(50%, -50%);
       }
+
       &:nth-child(3) {
         left: 50%;
         bottom: 0;
@@ -250,53 +263,66 @@ aside {
       &:has(li:nth-child(1):hover) {
         --target: 1;
       }
+
       &:has(li:nth-child(2):hover) {
         --target: 2;
       }
+
       &:has(li:nth-child(3):hover) {
         --target: 3;
       }
+
       &:has(li:nth-child(4):hover) {
         --target: 4;
       }
+
       &:has(li:nth-child(5):hover) {
         --target: 5;
       }
+
       &:has(li:nth-child(6):hover) {
         --target: 6;
       }
+
       &:has(li:nth-child(7):hover) {
         --target: 7;
       }
+
       &:has(li:nth-child(8):hover) {
         --target: 8;
       }
+
       &:has(li:nth-child(9):hover) {
         --target: 9;
       }
+
       &:has(li:nth-child(10):hover) {
         --target: 10;
       }
+
       &:has(li:nth-child(11):hover) {
         --target: 11;
       }
+
       &:has(li:nth-child(12):hover) {
         --target: 12;
       }
+
       &:has(li:nth-child(13):hover) {
         --target: 13;
       }
 
-      & > li {
+      &>li {
         cursor: pointer;
         transform-origin: -300% 50%;
         transition: transform 1.5s var(--ease-spring-2),
           opacity 0.3s var(--ease-3);
       }
 
-      &:hover > li:not(:hover) {
+      &:hover>li:not(:hover) {
         --distance-from-target: abs(var(--sibling-index) - var(--target));
-        --distance-multiplier: var(--distance-from-target) * 25%; /* change 15% */
+        --distance-multiplier: var(--distance-from-target) * 25%;
+        /* change 15% */
         --gradual-fadeout: calc(100% - var(--distance-multiplier));
         // opacity: var(--gradual-fadeout);
         opacity: 0.1;

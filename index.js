@@ -59,11 +59,13 @@ const bindEvents = () => {
   board.addEventListener('click', async (e) => {
     const el = e.target
     if (!el.matches('div')) return
+    const color = el.style.getPropertyValue('--color')
     try {
-      await navigator.clipboard.writeText(el.style.getPropertyValue('--color'))
-      alert('复制成功')
+      await navigator.clipboard.writeText(color)
+      mark.dataset.toast = ' copied'
+      setTimeout(() => mark.dataset.toast = '', 1000)
     } catch (err) {
-      alert('复制失败，请手动复制')
+      console.log('Fail to copy current color name: ', color)
     }
   })
 
