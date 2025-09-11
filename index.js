@@ -52,8 +52,20 @@ const init = () => {
 const bindEvents = () => {
   const panels = gsap.utils.toArray('ul')
   const menu = document.querySelector('menu')
+  const board = document.querySelector('main section')
   const grids = gsap.utils.toArray('main section div')
   const mark = document.querySelector('mark')
+
+  board.addEventListener('click', async (e) => {
+    const el = e.target
+    if (!el.matches('div')) return
+    try {
+      await navigator.clipboard.writeText(el.style.getPropertyValue('--color'))
+      alert('复制成功')
+    } catch (err) {
+      alert('复制失败，请手动复制')
+    }
+  })
 
   menu.addEventListener('click', (e) => {
     const target = e.target;
