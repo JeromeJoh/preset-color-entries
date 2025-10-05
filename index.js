@@ -61,11 +61,13 @@ const bindEvents = () => {
     if (!el.matches('div')) return
     const color = el.style.getPropertyValue('--color')
     try {
-      await navigator.clipboard.writeText(color)
-      mark.dataset.toast = ' copied'
-      setTimeout(() => mark.dataset.toast = '', 1000)
+      await navigator.clipboard.writeText(color, { duration: 1000 })
+      // mark.dataset.toast = ' copied'
+      // setTimeout(() => mark.dataset.toast = '', 1000)
+      toast.success('Color copied to clipboard!')
     } catch (err) {
-      console.log('Fail to copy current color name: ', color)
+      // console.log('Fail to copy current color name: ', color)
+      toast.error('Failed to copy color')
     }
   })
 
